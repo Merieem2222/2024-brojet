@@ -1,0 +1,21 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+package Exo1;
+
+import java.util.Scanner;
+
+public class Main {
+   public Main() {
+   }
+
+   public static void main(String[] var0) {
+      Scanner var1 = new Scanner(System.in);
+      Voiture var2 = new Voiture();
+      System.out.print("Entrez la couleur de la voiture : ");
+      var2.couleur = var1.nextLine();
+      var2.marque = "Toyota";
+      var2.modele = "Corolla";
+      System.out.println("Voiture cr\u00e9\u00e9e : " + var2.marque + " " + var2.modele + " de couleur " + var2.couleur);
+      var2.demarrer();
+      var1.close();
+   }
+}
