@@ -27,7 +27,7 @@ class GestionEtudiants {
             if (it.next().getNom().equalsIgnoreCase(nom)) {
                 it.remove();
                 found = true;
-                System.out.println("Etudiant supprime avec succes ");
+                System.out.println("Etudiant supprime avec succets ");
                 break;
             }
         }
