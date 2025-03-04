@@ -1,41 +1,84 @@
 package com.monprojet;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Scanner scanner = new Scanner(System.in);
+        GestionUtilisateur gestion = new GestionUtilisateur(); 
 
-        // Informations de connexion
-        String url = "jdbc:mysql://localhost:3306/mabase"; // Remplace "mabase" par le nom de ta base
-        String utilisateur = "root";
-        String motDePasse = "root";
+        int choix;
+        do {
+            System.out.println("\n--- Gestion des utilisateurs ---");
+            System.out.println("1. Ajouter un utilisateur");
+            System.out.println("2. Afficher la liste des utilisateurs");
+            System.out.println("3. Supprimer un utilisateur par son identifiant");
+            System.out.println("4. Éditer un utilisateur par son ID");
+            System.out.println("5. Rechercher un utilisateur par son nom");
+            System.out.println("6. Quitter");
+            System.out.print("Votre choix : ");
 
-        try (Connection connexion = DriverManager.getConnection(url, utilisateur, motDePasse)) {
-            System.out.println("Connexion réussie !");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Veuillez entrer un nombre valide !");
+                scanner.next();
+            }
+            choix = scanner.nextInt();
+            scanner.nextLine(); 
 
-            // Exécuter une requête
-            String requete = "SELECT id, nom, email FROM utilisateurs";
+            switch (choix) {
+                case 1:
+                    System.out.print("Nom de l'utilisateur : ");
+                    String nom = scanner.nextLine();
+                    System.out.print("Email de l'utilisateur : ");
+                    String email = scanner.nextLine();
+                    gestion.ajouterUtilisateur(nom, email); 
+                    break;
 
-            try (Statement stmt = connexion.createStatement();
-                 ResultSet rs = stmt.executeQuery(requete)) {
+                case 2:
+                    gestion.afficherUtilisateurs(); 
+                    break;
 
-                System.out.println("Liste des utilisateurs :");
+                case 3:
+                    System.out.print("ID de l'utilisateur à supprimer : ");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("Veuillez entrer un ID valide !");
+                        scanner.next();
+                    }
+                    int idSupp = scanner.nextInt();
+                    scanner.nextLine();
+                    gestion.supprimerUtilisateur(idSupp);
+                    break;
 
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String nom = rs.getString("nom");
-                    String email = rs.getString("email");
-                    System.out.println("ID : " + id + ", Nom : " + nom + ", Email : " + email);
-                }
-            } // Le Statement et ResultSet seront automatiquement fermés ici
+                case 4:
+                    System.out.print("ID de l'utilisateur à éditer : ");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("Veuillez entrer un ID valide !");
+                        scanner.next();
+                    }
+                    int idEdit = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Nouveau nom : ");
+                    String nouveauNom = scanner.nextLine();
+                    System.out.print("Nouvel email : ");
+                    String nouvelEmail = scanner.nextLine();
+                    gestion.editerUtilisateur(idEdit, nouveauNom, nouvelEmail);
+                    break;
 
-        } catch (SQLException e) {
-            System.out.println("Erreur de connexion : " + e.getMessage());
-        }
+                case 5:
+                    System.out.print("Nom de l'utilisateur à rechercher : ");
+                    String nomRecherche = scanner.nextLine();
+                    gestion.rechercherUtilisateur(nomRecherche);
+                    break;
+
+                case 6:
+                    System.out.println("Bye !");
+                    break;
+
+                default:
+                    System.out.println("Choix invalide, veuillez réessayer.");
+            }
+        } while (choix != 6);
+
+        scanner.close();
     }
 }
