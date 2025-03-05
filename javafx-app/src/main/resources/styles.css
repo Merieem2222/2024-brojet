@@ -1,0 +1,16 @@
+.label {
+
+
+    -fx-text-fill: #FF0000;
+}
+
+
+.root {
+    -fx-background-color:rgb(182,220,250);
+    -fx-font-family: 'Arial';
+}
+
+
+
+
+
